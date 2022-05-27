@@ -1,6 +1,14 @@
 package com.example.accenture.data
 
-class GithubRepository {
+import com.example.accenture.data.source.GitHubRemote
+import kotlinx.coroutines.flow.flow
 
-    fun getData(): Int = 10
+class GithubRepository(
+    private val remote: GitHubRemote
+) {
+
+    fun getRepository() = flow {
+        val repository = remote.getRepository()
+        emit(repository)
+    }
 }
