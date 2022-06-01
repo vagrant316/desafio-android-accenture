@@ -7,8 +7,6 @@ import com.example.accenture.presentation.repository.model.Owner
 import com.example.accenture.presentation.repository.model.Repository
 import com.example.accenture.presentation.repository.model.RepositoryItem
 
-class RepositoryMapper() {
-
     fun RemoteRepository.toPresentation() = Repository(
         repositoryItems = repositoryItems?.map { repository ->
             repository.toPresentation()} ?: listOf()
@@ -25,9 +23,8 @@ class RepositoryMapper() {
         stargazerCount =  stargazerCount ?: 0,
         forkCount =  forkCount ?: 0
     )
-    fun RemoteOwner.toPresentation() = Owner(
+   private fun RemoteOwner.toPresentation() = Owner(
         login = login.orEmpty(),
         avatarUrl = avatarUrl.orEmpty()
 
     )
-}

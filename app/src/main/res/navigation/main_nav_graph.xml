@@ -8,6 +8,8 @@
     <fragment
         android:id="@+id/repositoryFragment"
         android:name="com.example.accenture.ui.repository.RepositoryFragment"
-        android:label="fragment_repository"
-        tools:layout="@layout/fragment_repository" />
+        android:label="probando"
+        tools:layout="@layout/fragment_repository" >
+
+    </fragment>
 </navigation>

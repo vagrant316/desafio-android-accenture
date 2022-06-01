@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.accenture.core.BaseViewHolder
 import com.example.accenture.databinding.RepositoryListItemBinding
-import com.example.accenture.presentation.repository.model.RepositoryItem
+import com.example.accenture.presentation.repository.model.PullRequest
 
-class RepositoryAdapter(private val repositoryList: List<RepositoryItem>)
-    : RecyclerView.Adapter<BaseViewHolder<*>>() {
+class RepositoryAdapter(private val repositoryList: List<PullRequest>) :
+    RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         val itemBinding =
@@ -19,7 +19,7 @@ class RepositoryAdapter(private val repositoryList: List<RepositoryItem>)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
-        when(holder){
+        when (holder) {
             is RepositoryViewHolder -> holder.bind(repositoryList[position])
         }
     }
@@ -28,20 +28,16 @@ class RepositoryAdapter(private val repositoryList: List<RepositoryItem>)
         return repositoryList.count()
     }
 
-
-    private inner class RepositoryViewHolder(
+    class RepositoryViewHolder(
         val binding: RepositoryListItemBinding,
         val context: Context
-    ) : BaseViewHolder<RepositoryItem>(binding.root) {
-        override fun bind(item: RepositoryItem) {
-           binding.apply {
-               nameTextview.text = item.name
-               descriptionTextView.text = item.description
-               binding.autorTextView.text = item.owner.login
-               binding.forkTextView.text = item.forkCount.toString()
-               binding.starTextView.text = item.stargazerCount.toString()
+    ) : BaseViewHolder<PullRequest>(binding.root) {
+        override fun bind(item: PullRequest) {
+            with(binding) {
+                nameTextview.text = item.title
 
-           }
+
+            }
         }
     }
 }

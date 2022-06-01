@@ -11,4 +11,9 @@ class GithubRepository(
         val repository = remote.getRepository()
         emit(repository)
     }
+
+    fun getPullRequest(creator: String, repo: String) = flow  {
+        emit(remote.getPullRequest(creator, repo))
+    }
+
 }

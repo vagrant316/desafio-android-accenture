@@ -10,5 +10,8 @@ object Constants {
     const val FORK_COUNT = "forks_count"
     const val LOGIN = "login"
     const val AVATAR_URL = "avatar_url"
+    const val TITLE = "title"
+    const val BODY = "body"
+    const val USER = "user"
 }
 
