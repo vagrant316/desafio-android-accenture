@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.whenStarted
 import com.example.accenture.databinding.FragmentRepositoryBinding
 import com.example.accenture.core.UiState
 import com.example.accenture.presentation.repository.RepositoryViewModel
+import com.example.accenture.presentation.repository.model.PullRequest
 import com.example.accenture.presentation.repository.model.PullRequestItem
 import com.example.accenture.presentation.repository.model.RepositoryItem
 import com.example.accenture.ui.repository.adapter.RepositoryAdapter
@@ -21,44 +23,52 @@ class RepositoryFragment : Fragment() {
     private lateinit var binding: FragmentRepositoryBinding
     private val viewModel by viewModel<RepositoryViewModel>()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
         binding = FragmentRepositoryBinding.inflate(inflater, container, false)
-    //    (requireActivity() as AppCompatActivity).supportActionBar?.title = "Hello"
+        //    (requireActivity() as AppCompatActivity).supportActionBar?.title = "Hello"
 
-       // requireActivity().title = "Github JavaPop"
+        // requireActivity().title = "Github JavaPop"
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        lifecycleScope.launchWhenStarted {
-            viewModel.uiStatePullRequest.collect{
-                uiStateCollector(it)
-            }
-        }
+
+
+        viewModel.pullRequestLiveData.observe(viewLifecycleOwner, ::pullRequestObserve)
+
         viewModel.fetchPullRequest("kdn251", "interviews")
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.pullRequestFlow.collect(::pullRequestCollector)
+        }
     }
 
-
-     fun uiStateCollector(uiState:UiState<List<PullRequestItem>> ){
-        with(binding){
-            val algo: UiState<List<PullRequestItem>> = uiState
-            when(uiState){
+    fun pullRequestObserve(uiState: UiState) {
+        with(binding) {
+            when (uiState) {
                 is UiState.Loading -> {
                     progressBar.visibility = View.VISIBLE
                 }
-                is UiState.Success ->{
+                is UiState.Success -> {
                     progressBar.visibility = View.GONE
-                    recyclerView.adapter = RepositoryAdapter(uiState.resource)
                 }
-                else -> Unit
+
+                is UiState.Error -> {
+
+                }
             }
         }
 
     }
 
+
+    fun pullRequestCollector(pullRequest: List<PullRequestItem>){
+        var algo = pullRequest
+    }
 
 
 

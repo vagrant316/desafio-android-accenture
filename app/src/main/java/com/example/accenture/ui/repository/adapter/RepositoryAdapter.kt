@@ -34,7 +34,7 @@ class RepositoryAdapter(private val repositoryList: List<PullRequest>) :
     ) : BaseViewHolder<PullRequest>(binding.root) {
         override fun bind(item: PullRequest) {
             with(binding) {
-                nameTextview.text = item.title
+            //    nameTextview.text = item.title
 
 
             }

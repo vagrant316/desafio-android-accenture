@@ -1,5 +1,6 @@
 package com.example.accenture.presentation.repository
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.accenture.core.UiState
@@ -21,12 +22,13 @@ class RepositoryViewModel(
     val uiState: StateFlow<UiState<List<RepositoryItem>>> = _uiState*/
 
 
-    val uiStateRepository = MutableStateFlow<UiState<List<RepositoryItem>>>(Empty())
+  //  val uiStateRepository = MutableStateFlow<UiState<List<RepositoryItem>>>(Empty)
 
-    val uiStatePullRequest = MutableStateFlow<UiState<List<PullRequestItem>>>(Empty())
+    val pullRequestFlow = MutableStateFlow<List<PullRequestItem>>(emptyList())
+    val pullRequestLiveData = MutableLiveData<UiState>(Empty)
 
 
-    fun fetchRepository() {
+    /*fun fetchRepository() {
         viewModelScope.launch {
             repository.getRepository()
                 .flowOn(Dispatchers.IO)
@@ -38,24 +40,26 @@ class RepositoryViewModel(
                 }
                 .collect { repository ->
                     val mapRepository = repository.toPresentation()
-                    uiStateRepository.value = Success(mapRepository.repositoryItems)
+                    uiStateRepository.value = Success
                 }
         }
-    }
+    }*/
 
     fun fetchPullRequest(creator: String, repo: String) {
         viewModelScope.launch {
             repository.getPullRequest(creator, repo)
                 .flowOn(Dispatchers.IO)
                 .onStart {
-                    uiStatePullRequest.value = Loading()
+                    pullRequestLiveData.postValue(Loading)
                 }
                 .catch { e ->
-                    uiStatePullRequest.value = Error(e)
+                    pullRequestLiveData.postValue(Error(e))
                 }
-                .collect { pullRequest ->
-                    val mapPullRequest = pullRequest.toPresentation()
-                    uiStatePullRequest.value = Success(mapPullRequest)
+                .map {
+                    it.toPresentation()
+                }
+                .collect {
+                    pullRequestFlow.emit(it)
                 }
         }
     }
