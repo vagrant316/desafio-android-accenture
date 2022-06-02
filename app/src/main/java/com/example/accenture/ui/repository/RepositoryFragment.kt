@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.accenture.databinding.FragmentRepositoryBinding
 import com.example.accenture.core.UiState
 import com.example.accenture.presentation.repository.RepositoryViewModel
+import com.example.accenture.presentation.repository.model.PullRequest
 import com.example.accenture.presentation.repository.model.PullRequestItem
 import com.example.accenture.presentation.repository.model.RepositoryItem
 import com.example.accenture.ui.repository.adapter.RepositoryAdapter

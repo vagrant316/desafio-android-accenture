@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.accenture.core.BaseViewHolder
 import com.example.accenture.databinding.RepositoryListItemBinding
-import com.example.accenture.presentation.repository.model.PullRequest
+import com.example.accenture.presentation.repository.model.PullRequestItem
 
-class RepositoryAdapter(private val repositoryList: List<PullRequest>) :
+class RepositoryAdapter(private val repositoryList: List<PullRequestItem>) :
     RecyclerView.Adapter<BaseViewHolder<*>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
@@ -31,8 +31,8 @@ class RepositoryAdapter(private val repositoryList: List<PullRequest>) :
     class RepositoryViewHolder(
         val binding: RepositoryListItemBinding,
         val context: Context
-    ) : BaseViewHolder<PullRequest>(binding.root) {
-        override fun bind(item: PullRequest) {
+    ) : BaseViewHolder<PullRequestItem>(binding.root) {
+        override fun bind(item: PullRequestItem) {
             with(binding) {
                 nameTextview.text = item.title
 

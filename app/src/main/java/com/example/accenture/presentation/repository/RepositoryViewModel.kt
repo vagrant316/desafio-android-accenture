@@ -47,16 +47,27 @@ class RepositoryViewModel(
         viewModelScope.launch {
             repository.getPullRequest(creator, repo)
                 .flowOn(Dispatchers.IO)
+
                 .onStart {
+
                     uiStatePullRequest.value = Loading()
                 }
                 .catch { e ->
                     uiStatePullRequest.value = Error(e)
                 }
-                .collect { pullRequest ->
-                    val mapPullRequest = pullRequest.toPresentation()
-                    uiStatePullRequest.value = Success(mapPullRequest)
+                .map { pullRequest ->
+
+               //     uiStatePullRequest.value = Success(mapPullRequest)
                 }
         }
     }
+
+    private fun pullRequest2() {
+        flow<UiState<List<PullRequestItem>>> {
+            emit(Loading())
+
+        }
+    }
+
+
 }
